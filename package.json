@@ -1,0 +1,27 @@
+{
+  "author": "Johh Lynch",
+  "name": "react-starter-template",
+  "version": "1.0.0",
+  "homepage": "http://www.rigelgroupllc.com",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "~3.3.2",
+    "gulp-coffee": "~1.2.5",
+    "gulp-sass": "~0.4.0",
+    "gulp-watch": "~0.4.1",
+    "webpack": "~1.0.0-beta6",
+    "webpack-dev-server": "~1.2.0",
+    "jsx-loader": "git://github.com/petehunt/jsx-loader",
+    "coffee-loader": "~0.6.0",
+    "script-loader": "~0.5.1",
+    "gulp-clean": "~0.2.2",
+    "gulp-livereload": "~0.2.0",
+    "tiny-lr": "0.0.5",
+    "express": "~3.4.8",
+    "bower": "~1.2.8",
+    "gulp-rev": "~0.2.0",
+    "gulp-uglify": "~0.1.0",
+    "gulp-minify-css": "~0.2.0"
+  },
+  "license": "MIT"
+}

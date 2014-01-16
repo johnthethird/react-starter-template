@@ -9,6 +9,7 @@ watch = require('gulp-watch')
 rev = require('gulp-rev')
 tiny_lr = require('tiny-lr')
 webpack = require("webpack")
+WebpackDevServer = require("webpack-dev-server")
 
 #
 # CONFIGS
@@ -16,7 +17,11 @@ webpack = require("webpack")
 
 webpackConfig = require("./webpack.config.js")
 if gulp.env.production  # i.e. we were executed with a --production option
-  webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin())
+  webpackConfig.plugins = webpackConfig.plugins.concat(
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin
+      "process.env.NODE_ENV": JSON.stringify "production"
+  )
   webpackConfig.output.filename = "main-[hash].js"
 sassConfig = { includePaths : ['src/styles'] }
 httpPort = 4000
@@ -56,10 +61,10 @@ gulp.task 'webpack', (callback) ->
   execWebpack(webpackConfig)
   callback()
 
-gulp.task 'dev', ['build'], ->
-  servers = createServers(httpPort, 35729)
+gulp.task 'dev', ['build-non-js'], ->
+  servers = createServers(webpackConfig, httpPort, 35729)
   # When /src changes, fire off a rebuild
-  gulp.watch ['./src/**/*'], (evt) -> gulp.run 'build'
+  gulp.watch ['./src/**/*', '!./src/scripts'], (evt) -> gulp.run 'build-non-js'
   # When /dist changes, tell the browser to reload
   gulp.watch ['./dist/**/*'], (evt) ->
     gutil.log(gutil.colors.cyan(evt.path), 'changed')
@@ -69,6 +74,7 @@ gulp.task 'dev', ['build'], ->
 
 
 gulp.task 'build', ['webpack', 'sass', 'copy', 'vendor'], ->
+gulp.task 'build-non-js', ['sass', 'copy', 'vendor'], ->
 gulp.task 'default', ['build'], ->
   # Give first-time users a little help
   setTimeout ->
@@ -84,13 +90,20 @@ gulp.task 'default', ['build'], ->
 #
 
 
-# Create both http server and livereload server
-createServers = (port, lrport) ->
+# Create both webpack dev server and livereload server
+createServers = (config, port, lrport) ->
   lr = tiny_lr()
   lr.listen lrport, -> gutil.log("LiveReload listening on", lrport)
-  app = express()
-  app.use(express.static(path.resolve("./dist")))
-  app.listen port, -> gutil.log("HTTP server listening on", port)
+  webpackDevConfig = Object.create webpackConfig
+  webpackDevConfig.devtool = "source-map"
+  app = new WebpackDevServer(webpack(webpackDevConfig),
+    stats:
+      colors: true
+    contentBase: path.resolve("./dist")
+    watchDelay: 200
+    publicPath: webpackDevConfig.output.publicPath
+  )
+  app.listen port, -> gutil.log("webpack dev server listening on", port)
 
   lr: lr
   app: app

@@ -1,5 +1,7 @@
 `/** @jsx React.DOM */`
 
+React = require("react")
+
 Masthead = React.createClass
   render: () ->
     `(

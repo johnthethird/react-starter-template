@@ -3,15 +3,19 @@
   "name": "react-starter-template",
   "version": "1.0.0",
   "homepage": "http://www.rigelgroupllc.com",
-  "dependencies": {},
+  "dependencies": {
+    "react": "~0.8.0"
+  },
   "devDependencies": {
     "gulp": "~3.3.2",
+    "gulp-util": "~2.2.10",
     "gulp-coffee": "~1.2.5",
     "gulp-sass": "~0.4.0",
     "gulp-watch": "~0.4.1",
     "webpack": "~1.0.0-beta6",
     "webpack-dev-server": "~1.2.0",
     "jsx-loader": "git://github.com/petehunt/jsx-loader",
+    "coffee-script": "~1.6.3",
     "coffee-loader": "~0.6.0",
     "script-loader": "~0.5.1",
     "gulp-clean": "~0.2.2",

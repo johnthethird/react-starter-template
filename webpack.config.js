@@ -5,9 +5,7 @@ module.exports = {
   entry: "./src/scripts/main.coffee",
   target: "web",
   debug: true,
-  // We are watching in the gulp.watch, so tell webpack not to watch
-  watch: false,
-  // watchDelay: 300,
+  cache: true,
   output: {
     path: path.join(__dirname, "dist", "assets"),
     publicPath: "/assets/",
@@ -17,6 +15,10 @@ module.exports = {
     chunkFilename: "[chunkhash].js"
   },
   resolve: {
+    alias: {
+      react$: "react/lib/ReactWithAddons",
+      jquery$: "jquery/jquery.js",
+    },
     // Tell webpack to look for required files in bower and node
     modulesDirectories: ['bower_components', 'node_modules'],
   },

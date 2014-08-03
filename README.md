@@ -12,16 +12,19 @@ First, clone the repo...
 
 `git clone git@github.com:johnthethird/react-starter-template.git`
 
-Then install the bower and npm modules
+Then install the npm and bower modules
 
 ```
-bower install
-npm install
+$ npm install
+$ bin/bower install
 ```
 
-`gulp dev` then go to http://localhost:4000/index.html
+start server
+```
+$ bin/gulp dev
+```
+
+then go to http://localhost:4000/index.html
+
 
 If you have the Chrome LiveReload extension installed, then your browser will automatically reload when any file in /src changes.
-
-
-
